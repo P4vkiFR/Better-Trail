@@ -1,0 +1,16 @@
+#pragma once
+
+#include "Includes.hpp"
+
+#include <Geode/modify/PlayLayer.hpp>
+
+class $modify(ProPlayLayer, PlayLayer) {
+
+    void updateSettings();
+
+    $override
+    void setupHasCompleted();
+    void resetLevel();
+    void destroyPlayer(PlayerObject*, GameObject*);
+
+};
