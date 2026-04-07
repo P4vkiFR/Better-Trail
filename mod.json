@@ -8,7 +8,7 @@
 	},
 	"id": "p4vkfr.better_trail",
 	"name": "Better Trail",
-	"version": "v1.0.0",
+	"version": "v1.0.1",
 	"developer": "P4vkFR",
 	"tags": [
 		"gameplay", "offline", "enhancement", "bugfix", "utility", "customization"
@@ -18,6 +18,10 @@
 	},
 	"description": "Add a Wave Trail to all gamemodes!",
 	"settings": {
+		"settings-category": {
+			"type": "title",
+			"name": "Settings"
+		},
 		"open-menu": {
 			"name": "Open menu",
 			"type": "keybind",
@@ -33,6 +37,10 @@
 			"name": "Button In Pause Menu",
 			"default": true,
 			"description": "Whether or not to show the Wave Trail settings button in the pause menu"
+		},
+		"gamemodes-category": {
+			"type": "title",
+			"name": "Gamemodes"
 		},
 		"enable-wave-trail": {
 			"type": "bool",
@@ -87,6 +95,16 @@
 			"name": "Enable Trail Color",
 			"default": false,
 			"description": "Enable color override for the Wave Trail (will override main and secondary player trail colors)"
+		},
+		"trail-in-platformer": {
+			"type": "bool",
+			"name": "Enable Trail In Platformer",
+			"default": false,
+			"description": "Enable Wave Trail in Platformer Mode"
+		},
+		"trail-settings-category": {
+			"type": "title",
+			"name": "Trail Settings"
 		},
 		"trail-color": {
 			"type": "color",

@@ -269,6 +269,22 @@ void ProPlayerObject::updateParticles() {
 
 void ProPlayerObject::updateNewTrail(float dt) {
     auto f = m_fields.self();
+
+    if (m_isPlatformer && !getSetting<"trail-in-platformer", bool>()) {
+        if (f->fakeTrail) {
+            killFakeTrail();
+        }
+
+        if (f->newTrail && f->newTrail->isVisible()) {
+            f->newTrail->clear();
+            f->newTrail->m_pointArray->removeAllObjects();
+            f->newTrail->m_drawStreak = false;
+            f->newTrail->setVisible(false);
+        }
+
+        return;
+    }
+
     auto showTrail = isTrailEnabled(true) && !m_isDead;
 
     if (f->fakeTrail) {
