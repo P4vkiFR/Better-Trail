@@ -12,6 +12,7 @@ void updateUpdateHook() {
         || getSetting<"enable-robot-trail", bool>()
         || getSetting<"enable-spider-trail", bool>()
         || getSetting<"enable-ball-trail", bool>()
+        || Loader::get()->isModLoaded("absolllute.megahack")
     );
 }
 

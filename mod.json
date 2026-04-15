@@ -8,7 +8,7 @@
 	},
 	"id": "p4vkfr.better_trail",
 	"name": "Better Trail",
-	"version": "v1.0.1",
+	"version": "v1.0.2",
 	"developer": "P4vkFR",
 	"tags": [
 		"gameplay", "offline", "enhancement", "bugfix", "utility", "customization"
@@ -26,7 +26,7 @@
 			"name": "Open menu",
 			"type": "keybind",
 			"default": "Ctrl+J",
-			"description": "The keybind that will be used to open this menu",
+			"description": "The keybind that will be used to open this menu.",
 			"platforms": [
 				"win",
 				"mac"
@@ -36,7 +36,7 @@
 			"type": "bool",
 			"name": "Button In Pause Menu",
 			"default": true,
-			"description": "Whether or not to show the Wave Trail settings button in the pause menu"
+			"description": "Whether or not to show the Wave Trail settings button in the pause menu."
 		},
 		"gamemodes-category": {
 			"type": "title",
@@ -46,77 +46,103 @@
 			"type": "bool",
 			"name": "Enable Wave Trail",
 			"default": true,
-			"description": "Whether to enable the default Wave Trail or not"
+			"description": "Whether to enable the default Wave Trail or not."
 		},
 		"enable-ship-trail": {
 			"type": "bool",
 			"name": "Enable Ship Trail",
 			"default": true,
-			"description": "Makes it so that the Ship gamemode has a Wave Trail"
+			"description": "Makes it so that the Ship gamemode has a Wave Trail."
 		},
 		"enable-ufo-trail": {
 			"type": "bool",
 			"name": "Enable UFO Trail",
 			"default": true,
-			"description": "Makes it so that the UFO gamemode has a Wave Trail"
+			"description": "Makes it so that the UFO gamemode has a Wave Trail."
 		},
 		"enable-swing-trail": {
 			"type": "bool",
 			"name": "Enable Swing Trail",
 			"default": true,
-			"description": "Makes it so that the Swing gamemode has a Wave Trail"
+			"description": "Makes it so that the Swing gamemode has a Wave Trail."
 		},
 		"enable-cube-trail": {
 			"type": "bool",
 			"name": "Enable Cube Trail",
 			"default": false,
-			"description": "Makes it so that the Cube gamemode has a Wave Trail"
+			"description": "Makes it so that the Cube gamemode has a Wave Trail."
 		},
 		"enable-ball-trail": {
 			"type": "bool",
 			"name": "Enable Ball Trail",
 			"default": false,
-			"description": "Makes it so that the Ball gamemode has a Wave Trail"
+			"description": "Makes it so that the Ball gamemode has a Wave Trail."
 		},
 		"enable-robot-trail": {
 			"type": "bool",
 			"name": "Enable Robot Trail",
 			"default": false,
-			"description": "Makes it so that the Robot gamemode has a Wave Trail"
+			"description": "Makes it so that the Robot gamemode has a Wave Trail."
 		},
 		"enable-spider-trail": {
 			"type": "bool",
 			"name": "Enable Spider Trail",
 			"default": false,
-			"description": "Makes it so that the Spider gamemode has a Wave Trail"
-		},
-		"enable-trail-color": {
-			"type": "bool",
-			"name": "Enable Trail Color",
-			"default": false,
-			"description": "Enable color override for the Wave Trail (will override main and secondary player trail colors)"
+			"description": "Makes it so that the Spider gamemode has a Wave Trail."
 		},
 		"trail-in-platformer": {
 			"type": "bool",
 			"name": "Enable Trail In Platformer",
 			"default": false,
-			"description": "Enable Wave Trail in Platformer Mode"
+			"description": "Enable Wave Trail in Platformer Mode."
 		},
 		"trail-settings-category": {
 			"type": "title",
 			"name": "Trail Settings"
 		},
+		"enable-trail-color": {
+			"type": "bool",
+			"name": "Enable Trail Color",
+			"default": false,
+			"description": "Enable color override for the Wave Trail (will override main and secondary player trail colors)."
+		},
 		"trail-color": {
 			"type": "color",
 			"name": "Trail Color",
 			"default": [255, 255, 255],
-			"description": "Color override for the Wave Trail"
+			"description": "Color override for the Wave Trail."
+		},
+		"enable-trail-rgb": {
+			"type": "bool",
+			"name": "Enable Trail RGB",
+			"default": false,
+			"description": "Enable trail RGB."
+		},
+		"trail-rgb-duration": {
+			"type": "float",
+			"name": "Trail RGB Duration",
+			"default": 5.0,
+			"min": 0.1,
+			"description": "The loop duration of the Trail RGB.",
+			"enable-if": "enable-trail-rgb"
+		},
+		"trail-rgb-saturation": {
+			"type": "float",
+			"name": "Trail RGB Saturation",
+			"default": 1.0,
+			"min": 0.1,
+			"max": 1.0,
+			"control": {
+				"arrow-step": 0.1
+			},
+			"description": "The saturation of the Trail RGB.",
+			"enable-if": "enable-trail-rgb"
 		},
 		"solid-wave-trail": {
 			"type": "bool",
 			"name": "Solid Wave Trail",
 			"default": false,
-			"description": "Makes the Wave Trail a solid color instead of it blending with the background and being glowy"
+			"description": "Makes the Wave Trail a solid color instead of it blending with the background and being glowy."
 		},
 		"trail-size": {
 			"type": "float",
@@ -124,7 +150,7 @@
 			"default": 10.0,
 			"min": 1.0,
 			"max": 75.0,
-			"description": "The size the Wave Trail will have, by default, 10"
+			"description": "The size the Wave Trail will have, by default, 10."
 		},
 		"disable-pulse": {
 			"type": "bool",
@@ -136,37 +162,51 @@
 			"type": "bool",
 			"name": "Use Main Player Color",
 			"default": false,
-			"description": "Whether or not to use the player's main color for the Wave Trail"
+			"description": "Whether or not to use the player's main color for the Wave Trail."
 		},
 		"use-secondary-player-color": {
 			"type": "bool",
 			"name": "Use Secondary Player Color",
 			"default": false,
-			"description": "Whether or not to use the player's secondary color for the Wave Trail"
+			"description": "Whether or not to use the player's secondary color for the Wave Trail."
 		},
 		"use-glow-player-color": {
 			"type": "bool",
 			"name": "Use Glow Player Color",
 			"default": false,
-			"description": "Whether or not to use the player's glow color for the Wave Trail"
+			"description": "Whether or not to use the player's glow color for the Wave Trail."
 		},
 		"hide-regular-trail": {
 			"type": "bool",
 			"name": "Hide regular trail",
 			"default": true,
-			"description": "Hides regular trail if wave trail is enabled"
+			"description": "Hides regular trail if wave trail is enabled."
 		},
 		"hide-particles": {
 			"type": "bool",
 			"name": "Hide particles",
 			"default": false,
-			"description": "Hides particles if wave trail is enabled"
+			"description": "Hides particles if wave trail is enabled."
 		},
 		"do-offset": {
 			"type": "bool",
 			"name": "Do Offset Trails",
 			"default": true,
 			"description": "Adds an offset to the Wave Trail in Ship and UFO gamemodes so that it looks more real."
+		},
+		"length-limit": {
+			"type": "int",
+			"name": "Trail Length Limit",
+			"description": "The length limit the wave trail will have on the rest of gamemodes (not wave one).",
+			"default": 300,
+			"min": 20
+		},
+		"point-threshold": {
+			"type": "float",
+			"name": "Trail Point Threshold",
+			"description": "How often the trail will add a new trail point.",
+			"default": 1.0,
+			"min": 0.0
 		}
 	}
 }

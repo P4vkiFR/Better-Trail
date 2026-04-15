@@ -1,3 +1,10 @@
+# v1.0.2
+
+* Fixed incompatibility with megahack
+* Added trail RGB setting
+* Added trail length limit setting
+* Added trail point threshold setting
+
 # v1.0.1
 
 * Added setting categories.

@@ -7,6 +7,10 @@
 class $modify(ProPlayerObject, PlayerObject) {
 
     struct Fields {
+        Fields();
+
+        bool megahackLoaded = false;
+
         HardStreak* newTrail = nullptr;
         HardStreak* fakeTrail = nullptr;
 
@@ -22,6 +26,9 @@ class $modify(ProPlayerObject, PlayerObject) {
 
         bool didHideTrail = false;
         bool wasGoingLeft = false;
+
+        float rgbTime = 0.f;
+        bool didScheduleUpdate = false;
     };
 
     bool isPlayer();
@@ -35,6 +42,7 @@ class $modify(ProPlayerObject, PlayerObject) {
     void justDied();
 
     void updateSettings();
+    void updateTrailColor();
     void updateSolidTrail();
     void updateTrailSize();
     void updateTrailPulse();
@@ -42,6 +50,7 @@ class $modify(ProPlayerObject, PlayerObject) {
     void updateParticles();
 
     void updateNewTrail(float = 0.f);
+    void updateTrailRGB(float);
 
     $override
     void update(float);

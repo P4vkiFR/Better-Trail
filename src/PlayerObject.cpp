@@ -1,5 +1,9 @@
 #include "PlayerObject.hpp"
 
+ProPlayerObject::Fields::Fields() {
+    megahackLoaded = Loader::get()->isModLoaded("absolllute.megahack");
+}
+
 bool ProPlayerObject::isPlayer() {
     return PlayLayer::get() && m_gameLayer && (this == m_gameLayer->m_player1 || this == m_gameLayer->m_player2);
 }
@@ -143,12 +147,35 @@ void ProPlayerObject::justDied() {
 
 void ProPlayerObject::updateSettings() {
     auto f = m_fields.self();
+    
+    if (getSetting<"enable-trail-rgb", bool>() && !f->didScheduleUpdate) {
+        schedule(schedule_selector(ProPlayerObject::updateTrailRGB));
+        f->didScheduleUpdate = true;
+    } else if (!getSetting<"enable-trail-rgb", bool>() && f->didScheduleUpdate) {
+        unschedule(schedule_selector(ProPlayerObject::updateTrailRGB));
+        f->didScheduleUpdate = false;
+    }
 
     updateSolidTrail();
     updateTrailSize();
     updateRegularTrail();
     updateParticles();
     updateNewTrail();
+    updateTrailColor();
+
+    m_waveTrail->setVisible(getSetting<"enable-wave-trail", bool>());
+
+    copyTrailProperties(f->newTrail);
+
+    f->rgbTime = 0.f;
+}
+
+void ProPlayerObject::updateTrailColor() {
+    if (getSetting<"enable-trail-rgb", bool>()) {
+        return;
+    }
+
+    auto f = m_fields.self();
 
     if (
         getSetting<"enable-trail-color", bool>()
@@ -178,10 +205,6 @@ void ProPlayerObject::updateSettings() {
     } else if (f->didSetColor) {
         m_waveTrail->setColor(f->originalColor);
     }
-
-    m_waveTrail->setVisible(getSetting<"enable-wave-trail", bool>());
-
-    copyTrailProperties(f->newTrail);
 }
 
 void ProPlayerObject::updateSolidTrail() {
@@ -269,6 +292,10 @@ void ProPlayerObject::updateParticles() {
 
 void ProPlayerObject::updateNewTrail(float dt) {
     auto f = m_fields.self();
+
+    if (f->megahackLoaded) {
+        updateTrailColor();
+    }
 
     if (m_isPlatformer && !getSetting<"trail-in-platformer", bool>()) {
         if (f->fakeTrail) {
@@ -367,16 +394,32 @@ void ProPlayerObject::updateNewTrail(float dt) {
         );
     }
 
+    auto doAdd = true;
+
+    if (f->newTrail->m_pointArray->count() > 0) {
+        auto lastPoint = static_cast<PointNode*>(m_isGoingLeft ? f->newTrail->m_pointArray->firstObject() : f->newTrail->m_pointArray->lastObject());
+
+        if (ccpDistance(lastPoint->m_point, position) <= getSetting<"point-threshold", float>()) {
+            doAdd = false;
+        }
+    }
+
     if (m_isGoingLeft) {
-        auto node = PointNode::create(position);
-        f->newTrail->m_pointArray->insertObject(node, 0);
+        if (doAdd) {
+            auto node = PointNode::create(position);
+            f->newTrail->m_pointArray->insertObject(node, 0);
+        }
+
         f->newTrail->m_currentPoint = static_cast<PointNode*>(f->newTrail->m_pointArray->lastObject())->m_point;
     } else {
-        f->newTrail->addPoint(position);
+        if (doAdd) {
+            f->newTrail->addPoint(position);
+        }
+
         f->newTrail->m_currentPoint = position;
     }
 
-    while (f->newTrail->m_pointArray->count() > 300) {
+    while (f->newTrail->m_pointArray->count() > getSetting<"length-limit", int>()) {
         if (m_isGoingLeft) {
             f->newTrail->m_pointArray->removeFirstObject(true);
         } else {
@@ -394,6 +437,48 @@ void ProPlayerObject::updateNewTrail(float dt) {
     }
     
     f->newTrail->updateStroke(dt);
+}
+
+void ProPlayerObject::updateTrailRGB(float dt) {
+    if (!getSetting<"enable-trail-rgb", bool>()) {
+        return;
+    }
+
+    auto f = m_fields.self();
+    auto duration = getSetting<"trail-rgb-duration", float>();
+
+    f->rgbTime += dt;
+
+    if (f->rgbTime > duration) {
+        f->rgbTime = f->rgbTime - duration;
+    }
+
+    auto t = f->rgbTime / duration;
+
+    auto r = clampf(std::abs(6.f * t - 3.f) - 1.f, 0.f, 1.f);
+    auto g = clampf(2.f - std::abs(6.f * t - 2.f), 0.f, 1.f);
+    auto b = clampf(2.f - std::abs(6.f * t - 4.f), 0.f, 1.f);
+    auto pastel = 1.f - getSetting<"trail-rgb-saturation", float>();
+
+    r = r + (1.f - r) * pastel;
+    g = g + (1.f - g) * pastel;
+    b = b + (1.f - b) * pastel;
+
+    auto color = ccc3(
+        r * 255,
+        g * 255,
+        b * 255
+    );
+
+    m_waveTrail->setColor(color);
+
+    if (f->newTrail) {
+        f->newTrail->setColor(color);
+    }
+
+    if (f->fakeTrail) {
+        f->fakeTrail->setColor(color);
+    }
 }
 
 void ProPlayerObject::update(float dt) {
