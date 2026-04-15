@@ -333,7 +333,7 @@ void ProPlayerObject::updateNewTrail(float dt) {
         }
     }
 
-    if (!showTrail) {
+    if (!showTrail || m_isHidden) {
         if (f->newTrail && f->newTrail->isVisible()) {
             spawnFakeTrail(m_isDart ? 0.f : 0.2f, m_isDart ? getPosition() : CCPoint{0, 0});
 

@@ -1,6 +1,7 @@
 # v1.0.2
 
 * Fixed incompatibility with megahack
+* Fixed trail still being shown when player was hidden
 * Added trail RGB setting
 * Added trail length limit setting
 * Added trail point threshold setting
