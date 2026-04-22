@@ -1,3 +1,7 @@
+# v1.0.3
+
+* Fixed forced solid wave trail when main player color is black
+
 # v1.0.2
 
 * Fixed incompatibility with megahack

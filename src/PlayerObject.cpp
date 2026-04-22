@@ -4,10 +4,6 @@ ProPlayerObject::Fields::Fields() {
     megahackLoaded = Loader::get()->isModLoaded("absolllute.megahack");
 }
 
-bool ProPlayerObject::isPlayer() {
-    return PlayLayer::get() && m_gameLayer && (this == m_gameLayer->m_player1 || this == m_gameLayer->m_player2);
-}
-
 bool ProPlayerObject::isCube() {
     return !m_isDart
         && !m_isBall
@@ -223,6 +219,9 @@ void ProPlayerObject::updateSolidTrail() {
         f->didSetSolid = false;
         m_waveTrail->setBlendFunc(f->originalBlendFunc);
         m_waveTrail->m_isSolid = f->wasSolid;
+    } else if (getSetting<"enable-trail-color", bool>() && m_waveTrail->getColor() == ccColor3B{0, 0, 0}) {
+        m_waveTrail->setBlendFunc({ GL_SRC_ALPHA, GL_ONE });
+        m_waveTrail->m_isSolid = false;
     }
 
     copyTrailProperties(f->newTrail);
@@ -484,7 +483,7 @@ void ProPlayerObject::updateTrailRGB(float dt) {
 void ProPlayerObject::update(float dt) {
     PlayerObject::update(dt);
 
-    if (isPlayer()) {
+    if (isVanillaPlayer()) {
         updateTrailPulse();
         updateNewTrail(dt);
     }
@@ -493,7 +492,16 @@ void ProPlayerObject::update(float dt) {
 void ProPlayerObject::updateStreakBlend(bool p0) {
     PlayerObject::updateStreakBlend(p0);
 
-    if (isPlayer()) {
+    if (isVanillaPlayer()) {
+        m_fields->didSetSolid = false;
+        updateSolidTrail();
+    }
+}
+
+void ProPlayerObject::setupStreak() {
+    PlayerObject::setupStreak();
+
+    if (isVanillaPlayer()) {
         m_fields->didSetSolid = false;
         updateSolidTrail();
     }
@@ -501,6 +509,11 @@ void ProPlayerObject::updateStreakBlend(bool p0) {
 
 void ProPlayerObject::resetStreak() {
     PlayerObject::resetStreak();
+
+    if (isVanillaPlayer()) {
+        m_fields->didSetSolid = false;
+        updateSolidTrail();
+    }
 
     if (auto newTrail = m_fields->newTrail) {
         newTrail->m_pointArray->removeAllObjects();
@@ -514,7 +527,7 @@ void ProPlayerObject::resetStreak() {
 void ProPlayerObject::togglePlayerScale(bool p0, bool p1) {
     PlayerObject::togglePlayerScale(p0, p1);
 
-    if (isPlayer()) {
+    if (isVanillaPlayer()) {
         m_fields->didSetSize = false;
         updateTrailSize();
     }
@@ -523,7 +536,7 @@ void ProPlayerObject::togglePlayerScale(bool p0, bool p1) {
 void ProPlayerObject::switchedToMode(GameObjectType p0) {
     PlayerObject::switchedToMode(p0);
 
-    if (isPlayer()) {
+    if (isVanillaPlayer()) {
         updateRegularTrail();
         updateParticles();
     }

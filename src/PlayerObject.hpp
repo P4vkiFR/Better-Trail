@@ -31,7 +31,6 @@ class $modify(ProPlayerObject, PlayerObject) {
         bool didScheduleUpdate = false;
     };
 
-    bool isPlayer();
     bool isCube();
     bool isTrailEnabled(bool = false);
     bool isPointOffscreen(const CCPoint&);
@@ -55,6 +54,7 @@ class $modify(ProPlayerObject, PlayerObject) {
     $override
     void update(float);
     void updateStreakBlend(bool);
+    void setupStreak();
     void resetStreak();
     void togglePlayerScale(bool, bool);
     void switchedToMode(GameObjectType);
